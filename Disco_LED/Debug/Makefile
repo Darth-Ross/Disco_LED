@@ -39,7 +39,7 @@ SUBDIRS :=
 C_SRCS +=  \
 ../disco_functions.c \
 ../disco_main.c \
-../test.c
+../prototype.c
 
 
 PREPROCESSING_SRCS += 
@@ -51,22 +51,22 @@ ASM_SRCS +=
 OBJS +=  \
 disco_functions.o \
 disco_main.o \
-test.o
+prototype.o
 
 OBJS_AS_ARGS +=  \
 disco_functions.o \
 disco_main.o \
-test.o
+prototype.o
 
 C_DEPS +=  \
 disco_functions.d \
 disco_main.d \
-test.d
+prototype.d
 
 C_DEPS_AS_ARGS +=  \
 disco_functions.d \
 disco_main.d \
-test.d
+prototype.d
 
 OUTPUT_FILE_PATH +=disco\ LED.elf
 
@@ -96,7 +96,7 @@ LINKER_SCRIPT_DEP+=
 	@echo Finished building: $<
 	
 
-./test.o: .././test.c
+./prototype.o: .././prototype.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 4.9.2
 	$(QUOTE)F:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"F:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.106\include" -I".."  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "F:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.106\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

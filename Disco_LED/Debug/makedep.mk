@@ -6,5 +6,5 @@ disco_functions.c
 
 disco_main.c
 
-test.c
+prototype.c
 
