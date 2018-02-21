@@ -128,10 +128,10 @@
     <Compile Include="disco_main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="test.c">
+    <Compile Include="prototype.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="test.h">
+    <Compile Include="prototype.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

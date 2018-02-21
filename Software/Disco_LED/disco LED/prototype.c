@@ -25,10 +25,7 @@ void test(void) {
 	char blue = 0;
 	
 	while(1) {
-		if(TCNT1 >= 15625) {
-			TCNT1 = 0;
 			RGB(red, green, blue);
-		}
 	}
 } 
 
