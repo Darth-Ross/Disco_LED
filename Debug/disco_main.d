@@ -1,4 +1,4 @@
-test.d test.o: .././test.c ../Test.h \
+disco_main.d disco_main.o: .././disco_main.c ../Test.h \
  f:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  f:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
  f:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \

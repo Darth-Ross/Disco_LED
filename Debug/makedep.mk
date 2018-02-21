@@ -2,7 +2,9 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
-main.c
+disco_functions.c
 
-Test.c
+disco_main.c
+
+test.c
 

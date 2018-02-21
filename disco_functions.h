@@ -6,10 +6,10 @@
  */ 
 
 
-#ifndef DISCO-FUNCTIONS_H_
-#define DISCO-FUNCTIONS_H_
+#ifndef DISCO_FUNCTIONS_H_
+#define DISCO_FUNCTIONS_H_
 
-
+void RGB(char red, char green, char blue);
 
 
 #endif /* DISCO-FUNCTIONS_H_ */

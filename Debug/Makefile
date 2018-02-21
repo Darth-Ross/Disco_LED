@@ -37,8 +37,9 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
-../main.c \
-../Test.c
+../disco_functions.c \
+../disco_main.c \
+../test.c
 
 
 PREPROCESSING_SRCS += 
@@ -48,20 +49,24 @@ ASM_SRCS +=
 
 
 OBJS +=  \
-main.o \
-Test.o
+disco_functions.o \
+disco_main.o \
+test.o
 
 OBJS_AS_ARGS +=  \
-main.o \
-Test.o
+disco_functions.o \
+disco_main.o \
+test.o
 
 C_DEPS +=  \
-main.d \
-Test.d
+disco_functions.d \
+disco_main.d \
+test.d
 
 C_DEPS_AS_ARGS +=  \
-main.d \
-Test.d
+disco_functions.d \
+disco_main.d \
+test.d
 
 OUTPUT_FILE_PATH +=disco\ LED.elf
 
@@ -77,14 +82,21 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
-./main.o: .././main.c
+./disco_functions.o: .././disco_functions.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 4.9.2
 	$(QUOTE)F:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"F:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.106\include" -I".."  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "F:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.106\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
-./Test.o: .././Test.c
+./disco_main.o: .././disco_main.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 4.9.2
+	$(QUOTE)F:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"F:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.106\include" -I".."  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "F:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.106\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./test.o: .././test.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 4.9.2
 	$(QUOTE)F:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"F:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.106\include" -I".."  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "F:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.106\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

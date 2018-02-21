@@ -6,12 +6,12 @@
  */ 
 #include <Test.h>
 #include <avr/io.h>
-#include <avr/interrupt.h>
+#include <avr/interrupt.h> 
 #include <disco_functions.h>
 
 int main(void) {
-    while (1) {
-		
+    while(1) {
+		test();
     }
 	
 	return 1;
