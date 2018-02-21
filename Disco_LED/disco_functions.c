@@ -9,7 +9,9 @@
 
 
 void RGB(char red, char green, char blue) {		
-	
+	red = red/255;
+	green = green/255;
+	blue = blue/255;
 	
 }
 
