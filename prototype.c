@@ -1,9 +1,9 @@
 /*
- * Test.c
- *
- * Created: 13-11-2017 22:09:41
- *  Author: Jorre van Merrienboer
- */
+* prototype.c
+*
+* Created: 21-2-2018 20:30:53
+*  Author: Jorre
+*/
 
 #define F_CPU 16000000UL
 
