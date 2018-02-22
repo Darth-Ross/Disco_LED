@@ -9,7 +9,7 @@
 #ifndef DISCO_FUNCTIONS_H_
 #define DISCO_FUNCTIONS_H_
 
-void RGB(float red, float green, float blue);
+void RGB(char red, char green, char blue);
 
 
 #endif /* DISCO-FUNCTIONS_H_ */

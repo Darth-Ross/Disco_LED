@@ -4,5 +4,7 @@
 
 disco_functions.c
 
+disco_main.c
+
 prototype.c
 
