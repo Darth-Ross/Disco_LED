@@ -125,13 +125,7 @@
     <Compile Include="disco_functions.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="disco_main.c">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="prototype.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="prototype.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
