@@ -16,15 +16,16 @@ int main(void) {
 	DDRD = 0xFF;
 	PORTD = 0x00;
 	
+	TCCR0B = 0x0 
 	TCCR1B = 0x05;		//16 bit timer on scale 1024
 	TCNT1 = 0;
 	
-	char red = 0;
-	char green = 0;
-	char blue = 0;
+	float red = 0xFF;
+	float green = 0x00;
+	float blue = 0x00;
 	
 	while(1) {
-			RGB(red, green, blue);
+		RGB(red, green, blue);
 	}
 	
 	return 1;
