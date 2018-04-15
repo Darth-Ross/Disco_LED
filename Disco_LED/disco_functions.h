@@ -9,7 +9,8 @@
 #ifndef DISCO_FUNCTIONS_H_
 #define DISCO_FUNCTIONS_H_
 
-void RGB(float red, float green, float blue);
-
+void RGB(int red, int green, int blue);
+void PWM(int value, int mode);
+void init(void);
 
 #endif /* DISCO-FUNCTIONS_H_ */
