@@ -14,14 +14,12 @@
 
 int main(void) {
 	
-	init();
+	initialise_ATmega328P();
+	testRGB();
 	
-	char red = 4;
-	char green = 0;
-	char blue = 0;
-	
-	while(1) {
-		RGB(red, green, blue);
+	while(1) {	
+		
+		display_RGB(0,0,0);
 	}
 	
 	return 1;

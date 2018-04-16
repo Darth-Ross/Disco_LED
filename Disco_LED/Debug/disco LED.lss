@@ -3,27 +3,29 @@ disco LED.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000138  2**0
+  0 .data         00000000  00800100  00800100  000002c8  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000000e4  00000000  00000000  00000054  2**1
+  1 .text         00000274  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000138  2**0
+  2 .comment      00000030  00000000  00000000  000002c8  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000168  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000002f8  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000048  00000000  00000000  000001a8  2**0
+  4 .debug_aranges 00000050  00000000  00000000  00000338  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000001d5  00000000  00000000  000001f0  2**0
+  5 .debug_info   0000070a  00000000  00000000  00000388  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000013a  00000000  00000000  000003c5  2**0
+  6 .debug_abbrev 000001cd  00000000  00000000  00000a92  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000017a  00000000  00000000  000004ff  2**0
+  7 .debug_line   000003dd  00000000  00000000  00000c5f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000058  00000000  00000000  0000067c  2**2
+  8 .debug_frame  00000068  00000000  00000000  0000103c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000016e  00000000  00000000  000006d4  2**0
+  9 .debug_str    000001de  00000000  00000000  000010a4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 00000028  00000000  00000000  00000842  2**0
+ 10 .debug_loc    0000005a  00000000  00000000  00001282  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000030  00000000  00000000  000012dc  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -63,112 +65,450 @@ Disassembly of section .text:
   6e:	d8 e0       	ldi	r29, 0x08	; 8
   70:	de bf       	out	0x3e, r29	; 62
   72:	cd bf       	out	0x3d, r28	; 61
-  74:	0e 94 65 00 	call	0xca	; 0xca <main>
-  78:	0c 94 70 00 	jmp	0xe0	; 0xe0 <_exit>
+  74:	0e 94 2e 01 	call	0x25c	; 0x25c <main>
+  78:	0c 94 38 01 	jmp	0x270	; 0x270 <_exit>
 
 0000007c <__bad_interrupt>:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-00000080 <RGB>:
- */ 
-#include <avr/io.h>
+00000080 <display_RGB>:
 #include <disco_functions.h>
+#include <util/delay.h>
 
-void RGB(int red, int green, int blue) {
-	OCR0A = red;
-  80:	87 bd       	out	0x27, r24	; 39
-  82:	08 95       	ret
-
-00000084 <init>:
-//	OCR0B = blue;
-}
-
-void init(void) {
-	DDRD = 0xFF;
-  84:	8f ef       	ldi	r24, 0xFF	; 255
-  86:	8a b9       	out	0x0a, r24	; 10
+void display_RGB(char red, char green, char blue) {
 	
-	TCCR0A |= (1 << 7);			// Set compare output mode A to non inverting
-  88:	84 b5       	in	r24, 0x24	; 36
-  8a:	80 68       	ori	r24, 0x80	; 128
-  8c:	84 bd       	out	0x24, r24	; 36
-	TCCR0A &= ~(1 << 6);	
-  8e:	84 b5       	in	r24, 0x24	; 36
-  90:	8f 7b       	andi	r24, 0xBF	; 191
-  92:	84 bd       	out	0x24, r24	; 36
-/*	
-	TCCR0A |= (1 << 5);			// Set compare output mode B to non inverting
-	TCCR0A &= ~(1 << 4);
-*/	
-	TCCR0B &= ~(1 << 7);		// Set FOC0A to 0
-  94:	85 b5       	in	r24, 0x25	; 37
-  96:	8f 77       	andi	r24, 0x7F	; 127
-  98:	85 bd       	out	0x25, r24	; 37
-	TCCR0B &= ~(1 << 6);		// Set FOC0B to 0
-  9a:	85 b5       	in	r24, 0x25	; 37
-  9c:	8f 7b       	andi	r24, 0xBF	; 191
-  9e:	85 bd       	out	0x25, r24	; 37
+	red = 255 - red;
+  80:	80 95       	com	r24
+	green = 255 - green;
+  82:	60 95       	com	r22
+	blue = 255 - blue;
+  84:	40 95       	com	r20
+
+	OCR0A = red;
+  86:	87 bd       	out	0x27, r24	; 39
+	OCR0B = blue;
+  88:	48 bd       	out	0x28, r20	; 40
+	OCR2B = green;
+  8a:	60 93 b4 00 	sts	0x00B4, r22	; 0x8000b4 <__TEXT_REGION_LENGTH__+0x7e00b4>
+  8e:	08 95       	ret
+
+00000090 <initialise_ATmega328P>:
+	
+	/////////////
+	// Timer 0 //
+	/////////////
+	
+	DDRD = 0xFF;
+  90:	8f ef       	ldi	r24, 0xFF	; 255
+  92:	8a b9       	out	0x0a, r24	; 10
 	
 	TCCR0A |= (1 << 0);			// Set WGM00 to 1
-  a0:	84 b5       	in	r24, 0x24	; 36
-  a2:	81 60       	ori	r24, 0x01	; 1
-  a4:	84 bd       	out	0x24, r24	; 36
+  94:	94 b5       	in	r25, 0x24	; 36
+  96:	91 60       	ori	r25, 0x01	; 1
+  98:	94 bd       	out	0x24, r25	; 36
 	TCCR0A |= (1 << 1);			// Set WGM01 to 1
-  a6:	84 b5       	in	r24, 0x24	; 36
-  a8:	82 60       	ori	r24, 0x02	; 2
-  aa:	84 bd       	out	0x24, r24	; 36
-	TCCR0B |= (1 << 3);			// Set WGM02 to 1
-  ac:	85 b5       	in	r24, 0x25	; 37
-  ae:	88 60       	ori	r24, 0x08	; 8
-  b0:	85 bd       	out	0x25, r24	; 37
-								// Set waveform generation mode to fast PWM
-						
-	TCCR0B |= (1 << 0);			// Set CS0 to 1
-  b2:	85 b5       	in	r24, 0x25	; 37
-  b4:	81 60       	ori	r24, 0x01	; 1
-  b6:	85 bd       	out	0x25, r24	; 37
-	TCCR0B |= (1 << 1);			// Set CS1 to 1
-  b8:	85 b5       	in	r24, 0x25	; 37
-  ba:	82 60       	ori	r24, 0x02	; 2
-  bc:	85 bd       	out	0x25, r24	; 37
-	TCCR0B &= ~(1 << 2);		// Set CS2 to 0
-  be:	85 b5       	in	r24, 0x25	; 37
-  c0:	8b 7f       	andi	r24, 0xFB	; 251
-  c2:	85 bd       	out	0x25, r24	; 37
-								// Setting prescaler to 64, PWM frequency is around 1kHz
+  9a:	94 b5       	in	r25, 0x24	; 36
+  9c:	92 60       	ori	r25, 0x02	; 2
+  9e:	94 bd       	out	0x24, r25	; 36
+	TCCR0B &= ~(1 << 3);		// Set WGM02 to 0
+  a0:	95 b5       	in	r25, 0x25	; 37
+  a2:	97 7f       	andi	r25, 0xF7	; 247
+  a4:	95 bd       	out	0x25, r25	; 37
+	// Set waveform generation mode to fast PWM 
 	
-	TIFR0 = 0;
-  c4:	15 ba       	out	0x15, r1	; 21
-	TCNT0 = 0;
-  c6:	16 bc       	out	0x26, r1	; 38
-  c8:	08 95       	ret
+	TCCR0A |= (1 << 7);			// Set compare output mode A to inverting
+  a6:	94 b5       	in	r25, 0x24	; 36
+  a8:	90 68       	ori	r25, 0x80	; 128
+  aa:	94 bd       	out	0x24, r25	; 36
+	TCCR0A |= (1 << 6);	
+  ac:	94 b5       	in	r25, 0x24	; 36
+  ae:	90 64       	ori	r25, 0x40	; 64
+  b0:	94 bd       	out	0x24, r25	; 36
 
-000000ca <main>:
+	TCCR0A |= (1 << 5);			// Set compare output mode B to inverting
+  b2:	94 b5       	in	r25, 0x24	; 36
+  b4:	90 62       	ori	r25, 0x20	; 32
+  b6:	94 bd       	out	0x24, r25	; 36
+	TCCR0A |= (1 << 4);
+  b8:	94 b5       	in	r25, 0x24	; 36
+  ba:	90 61       	ori	r25, 0x10	; 16
+  bc:	94 bd       	out	0x24, r25	; 36
+
+	TCCR0B &= ~(1 << 7);		// Set FOC0A to 0
+  be:	95 b5       	in	r25, 0x25	; 37
+  c0:	9f 77       	andi	r25, 0x7F	; 127
+  c2:	95 bd       	out	0x25, r25	; 37
+	TCCR0B &= ~(1 << 6);		// Set FOC0B to 0
+  c4:	95 b5       	in	r25, 0x25	; 37
+  c6:	9f 7b       	andi	r25, 0xBF	; 191
+  c8:	95 bd       	out	0x25, r25	; 37
+						
+	TCCR0B |= (1 << 0);			// Set CS00 to 1
+  ca:	95 b5       	in	r25, 0x25	; 37
+  cc:	91 60       	ori	r25, 0x01	; 1
+  ce:	95 bd       	out	0x25, r25	; 37
+	TCCR0B |= (1 << 1);			// Set CS01 to 1
+  d0:	95 b5       	in	r25, 0x25	; 37
+  d2:	92 60       	ori	r25, 0x02	; 2
+  d4:	95 bd       	out	0x25, r25	; 37
+	TCCR0B &= ~(1 << 2);		// Set CS02 to 0
+  d6:	95 b5       	in	r25, 0x25	; 37
+  d8:	9b 7f       	andi	r25, 0xFB	; 251
+  da:	95 bd       	out	0x25, r25	; 37
+								
+	/////////////						
+	// Timer 2 //
+	/////////////
+							
+	TCCR2A |= (1 << 0);			// Set WGM20 to 1
+  dc:	a0 eb       	ldi	r26, 0xB0	; 176
+  de:	b0 e0       	ldi	r27, 0x00	; 0
+  e0:	9c 91       	ld	r25, X
+  e2:	91 60       	ori	r25, 0x01	; 1
+  e4:	9c 93       	st	X, r25
+	TCCR2A |= (1 << 1);			// Set WGM21 to 1
+  e6:	9c 91       	ld	r25, X
+  e8:	92 60       	ori	r25, 0x02	; 2
+  ea:	9c 93       	st	X, r25
+	TCCR2B &= ~(1 << 3);		// Set WGM22 to 0
+  ec:	e1 eb       	ldi	r30, 0xB1	; 177
+  ee:	f0 e0       	ldi	r31, 0x00	; 0
+  f0:	90 81       	ld	r25, Z
+  f2:	97 7f       	andi	r25, 0xF7	; 247
+  f4:	90 83       	st	Z, r25
+	// Set waveform generation mode to fast PWM 
+		
+	TCCR2A |= (1 << 5);			// Set compare output mode A to inverting
+  f6:	9c 91       	ld	r25, X
+  f8:	90 62       	ori	r25, 0x20	; 32
+  fa:	9c 93       	st	X, r25
+	TCCR2A |= (1 << 4);
+  fc:	9c 91       	ld	r25, X
+  fe:	90 61       	ori	r25, 0x10	; 16
+ 100:	9c 93       	st	X, r25
+
+	TCCR2B &= ~(1 << 7);		// Set FOC2A to 0
+ 102:	90 81       	ld	r25, Z
+ 104:	9f 77       	andi	r25, 0x7F	; 127
+ 106:	90 83       	st	Z, r25
+	TCCR2B &= ~(1 << 6);		// Set FOC2B to 0
+ 108:	90 81       	ld	r25, Z
+ 10a:	9f 7b       	andi	r25, 0xBF	; 191
+ 10c:	90 83       	st	Z, r25
+	
+	TCCR2B &= ~(1 << 0);		// Set CS20 to 0
+ 10e:	90 81       	ld	r25, Z
+ 110:	9e 7f       	andi	r25, 0xFE	; 254
+ 112:	90 83       	st	Z, r25
+	TCCR2B &= ~(1 << 1);		// Set CS21 to 0
+ 114:	90 81       	ld	r25, Z
+ 116:	9d 7f       	andi	r25, 0xFD	; 253
+ 118:	90 83       	st	Z, r25
+	TCCR2B |=(1 << 2);			// Set CS22 to 1
+ 11a:	90 81       	ld	r25, Z
+ 11c:	94 60       	ori	r25, 0x04	; 4
+ 11e:	90 83       	st	Z, r25
+	
+	red = 255 - red;
+	green = 255 - green;
+	blue = 255 - blue;
+
+	OCR0A = red;
+ 120:	87 bd       	out	0x27, r24	; 39
+	OCR0B = blue;
+ 122:	88 bd       	out	0x28, r24	; 40
+	OCR2B = green;
+ 124:	80 93 b4 00 	sts	0x00B4, r24	; 0x8000b4 <__TEXT_REGION_LENGTH__+0x7e00b4>
+ 128:	08 95       	ret
+
+0000012a <testRGB>:
+	
+	red = 255 - red;
+	green = 255 - green;
+	blue = 255 - blue;
+
+	OCR0A = red;
+ 12a:	17 bc       	out	0x27, r1	; 39
+	OCR0B = blue;
+ 12c:	8f ef       	ldi	r24, 0xFF	; 255
+ 12e:	88 bd       	out	0x28, r24	; 40
+	OCR2B = green;
+ 130:	e4 eb       	ldi	r30, 0xB4	; 180
+ 132:	f0 e0       	ldi	r31, 0x00	; 0
+ 134:	80 83       	st	Z, r24
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 136:	2f ef       	ldi	r18, 0xFF	; 255
+ 138:	39 e6       	ldi	r19, 0x69	; 105
+ 13a:	48 e1       	ldi	r20, 0x18	; 24
+ 13c:	21 50       	subi	r18, 0x01	; 1
+ 13e:	30 40       	sbci	r19, 0x00	; 0
+ 140:	40 40       	sbci	r20, 0x00	; 0
+ 142:	e1 f7       	brne	.-8      	; 0x13c <testRGB+0x12>
+ 144:	00 c0       	rjmp	.+0      	; 0x146 <testRGB+0x1c>
+ 146:	00 00       	nop
+	
+	red = 255 - red;
+	green = 255 - green;
+	blue = 255 - blue;
+
+	OCR0A = red;
+ 148:	17 bc       	out	0x27, r1	; 39
+	OCR0B = blue;
+ 14a:	88 bd       	out	0x28, r24	; 40
+	OCR2B = green;
+ 14c:	9f e7       	ldi	r25, 0x7F	; 127
+ 14e:	90 83       	st	Z, r25
+ 150:	5f ef       	ldi	r21, 0xFF	; 255
+ 152:	29 e6       	ldi	r18, 0x69	; 105
+ 154:	38 e1       	ldi	r19, 0x18	; 24
+ 156:	51 50       	subi	r21, 0x01	; 1
+ 158:	20 40       	sbci	r18, 0x00	; 0
+ 15a:	30 40       	sbci	r19, 0x00	; 0
+ 15c:	e1 f7       	brne	.-8      	; 0x156 <testRGB+0x2c>
+ 15e:	00 c0       	rjmp	.+0      	; 0x160 <testRGB+0x36>
+ 160:	00 00       	nop
+	
+	red = 255 - red;
+	green = 255 - green;
+	blue = 255 - blue;
+
+	OCR0A = red;
+ 162:	17 bc       	out	0x27, r1	; 39
+	OCR0B = blue;
+ 164:	88 bd       	out	0x28, r24	; 40
+	OCR2B = green;
+ 166:	10 82       	st	Z, r1
+ 168:	4f ef       	ldi	r20, 0xFF	; 255
+ 16a:	59 e6       	ldi	r21, 0x69	; 105
+ 16c:	28 e1       	ldi	r18, 0x18	; 24
+ 16e:	41 50       	subi	r20, 0x01	; 1
+ 170:	50 40       	sbci	r21, 0x00	; 0
+ 172:	20 40       	sbci	r18, 0x00	; 0
+ 174:	e1 f7       	brne	.-8      	; 0x16e <testRGB+0x44>
+ 176:	00 c0       	rjmp	.+0      	; 0x178 <testRGB+0x4e>
+ 178:	00 00       	nop
+	
+	red = 255 - red;
+	green = 255 - green;
+	blue = 255 - blue;
+
+	OCR0A = red;
+ 17a:	97 bd       	out	0x27, r25	; 39
+	OCR0B = blue;
+ 17c:	88 bd       	out	0x28, r24	; 40
+	OCR2B = green;
+ 17e:	10 82       	st	Z, r1
+ 180:	3f ef       	ldi	r19, 0xFF	; 255
+ 182:	49 e6       	ldi	r20, 0x69	; 105
+ 184:	58 e1       	ldi	r21, 0x18	; 24
+ 186:	31 50       	subi	r19, 0x01	; 1
+ 188:	40 40       	sbci	r20, 0x00	; 0
+ 18a:	50 40       	sbci	r21, 0x00	; 0
+ 18c:	e1 f7       	brne	.-8      	; 0x186 <testRGB+0x5c>
+ 18e:	00 c0       	rjmp	.+0      	; 0x190 <testRGB+0x66>
+ 190:	00 00       	nop
+	
+	red = 255 - red;
+	green = 255 - green;
+	blue = 255 - blue;
+
+	OCR0A = red;
+ 192:	87 bd       	out	0x27, r24	; 39
+	OCR0B = blue;
+ 194:	98 bd       	out	0x28, r25	; 40
+	OCR2B = green;
+ 196:	10 82       	st	Z, r1
+ 198:	2f ef       	ldi	r18, 0xFF	; 255
+ 19a:	39 e6       	ldi	r19, 0x69	; 105
+ 19c:	48 e1       	ldi	r20, 0x18	; 24
+ 19e:	21 50       	subi	r18, 0x01	; 1
+ 1a0:	30 40       	sbci	r19, 0x00	; 0
+ 1a2:	40 40       	sbci	r20, 0x00	; 0
+ 1a4:	e1 f7       	brne	.-8      	; 0x19e <testRGB+0x74>
+ 1a6:	00 c0       	rjmp	.+0      	; 0x1a8 <testRGB+0x7e>
+ 1a8:	00 00       	nop
+	
+	red = 255 - red;
+	green = 255 - green;
+	blue = 255 - blue;
+
+	OCR0A = red;
+ 1aa:	87 bd       	out	0x27, r24	; 39
+	OCR0B = blue;
+ 1ac:	18 bc       	out	0x28, r1	; 40
+	OCR2B = green;
+ 1ae:	10 82       	st	Z, r1
+ 1b0:	5f ef       	ldi	r21, 0xFF	; 255
+ 1b2:	29 e6       	ldi	r18, 0x69	; 105
+ 1b4:	38 e1       	ldi	r19, 0x18	; 24
+ 1b6:	51 50       	subi	r21, 0x01	; 1
+ 1b8:	20 40       	sbci	r18, 0x00	; 0
+ 1ba:	30 40       	sbci	r19, 0x00	; 0
+ 1bc:	e1 f7       	brne	.-8      	; 0x1b6 <testRGB+0x8c>
+ 1be:	00 c0       	rjmp	.+0      	; 0x1c0 <testRGB+0x96>
+ 1c0:	00 00       	nop
+	
+	red = 255 - red;
+	green = 255 - green;
+	blue = 255 - blue;
+
+	OCR0A = red;
+ 1c2:	87 bd       	out	0x27, r24	; 39
+	OCR0B = blue;
+ 1c4:	18 bc       	out	0x28, r1	; 40
+	OCR2B = green;
+ 1c6:	90 83       	st	Z, r25
+ 1c8:	4f ef       	ldi	r20, 0xFF	; 255
+ 1ca:	59 e6       	ldi	r21, 0x69	; 105
+ 1cc:	28 e1       	ldi	r18, 0x18	; 24
+ 1ce:	41 50       	subi	r20, 0x01	; 1
+ 1d0:	50 40       	sbci	r21, 0x00	; 0
+ 1d2:	20 40       	sbci	r18, 0x00	; 0
+ 1d4:	e1 f7       	brne	.-8      	; 0x1ce <testRGB+0xa4>
+ 1d6:	00 c0       	rjmp	.+0      	; 0x1d8 <testRGB+0xae>
+ 1d8:	00 00       	nop
+	
+	red = 255 - red;
+	green = 255 - green;
+	blue = 255 - blue;
+
+	OCR0A = red;
+ 1da:	87 bd       	out	0x27, r24	; 39
+	OCR0B = blue;
+ 1dc:	18 bc       	out	0x28, r1	; 40
+	OCR2B = green;
+ 1de:	80 83       	st	Z, r24
+ 1e0:	3f ef       	ldi	r19, 0xFF	; 255
+ 1e2:	49 e6       	ldi	r20, 0x69	; 105
+ 1e4:	58 e1       	ldi	r21, 0x18	; 24
+ 1e6:	31 50       	subi	r19, 0x01	; 1
+ 1e8:	40 40       	sbci	r20, 0x00	; 0
+ 1ea:	50 40       	sbci	r21, 0x00	; 0
+ 1ec:	e1 f7       	brne	.-8      	; 0x1e6 <testRGB+0xbc>
+ 1ee:	00 c0       	rjmp	.+0      	; 0x1f0 <testRGB+0xc6>
+ 1f0:	00 00       	nop
+	
+	red = 255 - red;
+	green = 255 - green;
+	blue = 255 - blue;
+
+	OCR0A = red;
+ 1f2:	20 e8       	ldi	r18, 0x80	; 128
+ 1f4:	27 bd       	out	0x27, r18	; 39
+	OCR0B = blue;
+ 1f6:	18 bc       	out	0x28, r1	; 40
+	OCR2B = green;
+ 1f8:	80 83       	st	Z, r24
+ 1fa:	3f ef       	ldi	r19, 0xFF	; 255
+ 1fc:	49 e6       	ldi	r20, 0x69	; 105
+ 1fe:	58 e1       	ldi	r21, 0x18	; 24
+ 200:	31 50       	subi	r19, 0x01	; 1
+ 202:	40 40       	sbci	r20, 0x00	; 0
+ 204:	50 40       	sbci	r21, 0x00	; 0
+ 206:	e1 f7       	brne	.-8      	; 0x200 <testRGB+0xd6>
+ 208:	00 c0       	rjmp	.+0      	; 0x20a <testRGB+0xe0>
+ 20a:	00 00       	nop
+	
+	red = 255 - red;
+	green = 255 - green;
+	blue = 255 - blue;
+
+	OCR0A = red;
+ 20c:	17 bc       	out	0x27, r1	; 39
+	OCR0B = blue;
+ 20e:	18 bc       	out	0x28, r1	; 40
+	OCR2B = green;
+ 210:	80 83       	st	Z, r24
+ 212:	3f ef       	ldi	r19, 0xFF	; 255
+ 214:	49 e6       	ldi	r20, 0x69	; 105
+ 216:	58 e1       	ldi	r21, 0x18	; 24
+ 218:	31 50       	subi	r19, 0x01	; 1
+ 21a:	40 40       	sbci	r20, 0x00	; 0
+ 21c:	50 40       	sbci	r21, 0x00	; 0
+ 21e:	e1 f7       	brne	.-8      	; 0x218 <testRGB+0xee>
+ 220:	00 c0       	rjmp	.+0      	; 0x222 <testRGB+0xf8>
+ 222:	00 00       	nop
+	
+	red = 255 - red;
+	green = 255 - green;
+	blue = 255 - blue;
+
+	OCR0A = red;
+ 224:	17 bc       	out	0x27, r1	; 39
+	OCR0B = blue;
+ 226:	28 bd       	out	0x28, r18	; 40
+	OCR2B = green;
+ 228:	80 83       	st	Z, r24
+ 22a:	2f ef       	ldi	r18, 0xFF	; 255
+ 22c:	39 e6       	ldi	r19, 0x69	; 105
+ 22e:	48 e1       	ldi	r20, 0x18	; 24
+ 230:	21 50       	subi	r18, 0x01	; 1
+ 232:	30 40       	sbci	r19, 0x00	; 0
+ 234:	40 40       	sbci	r20, 0x00	; 0
+ 236:	e1 f7       	brne	.-8      	; 0x230 <testRGB+0x106>
+ 238:	00 c0       	rjmp	.+0      	; 0x23a <testRGB+0x110>
+ 23a:	00 00       	nop
+	
+	red = 255 - red;
+	green = 255 - green;
+	blue = 255 - blue;
+
+	OCR0A = red;
+ 23c:	97 bd       	out	0x27, r25	; 39
+	OCR0B = blue;
+ 23e:	98 bd       	out	0x28, r25	; 40
+	OCR2B = green;
+ 240:	90 83       	st	Z, r25
+ 242:	5f ef       	ldi	r21, 0xFF	; 255
+ 244:	99 e6       	ldi	r25, 0x69	; 105
+ 246:	28 e1       	ldi	r18, 0x18	; 24
+ 248:	51 50       	subi	r21, 0x01	; 1
+ 24a:	90 40       	sbci	r25, 0x00	; 0
+ 24c:	20 40       	sbci	r18, 0x00	; 0
+ 24e:	e1 f7       	brne	.-8      	; 0x248 <testRGB+0x11e>
+ 250:	00 c0       	rjmp	.+0      	; 0x252 <testRGB+0x128>
+ 252:	00 00       	nop
+	
+	red = 255 - red;
+	green = 255 - green;
+	blue = 255 - blue;
+
+	OCR0A = red;
+ 254:	87 bd       	out	0x27, r24	; 39
+	OCR0B = blue;
+ 256:	88 bd       	out	0x28, r24	; 40
+	OCR2B = green;
+ 258:	80 83       	st	Z, r24
+ 25a:	08 95       	ret
+
+0000025c <main>:
 #include <util/delay.h>
 #include <disco_functions.h>
 
 int main(void) {
 	
-	init();
-  ca:	0e 94 42 00 	call	0x84	; 0x84 <init>
-	char red = 4;
-	char green = 0;
-	char blue = 0;
+	initialise_ATmega328P();
+ 25c:	0e 94 48 00 	call	0x90	; 0x90 <initialise_ATmega328P>
+	testRGB();
+ 260:	0e 94 95 00 	call	0x12a	; 0x12a <testRGB>
 	
-	while(1) {
-		RGB(red, green, blue);
-  ce:	40 e0       	ldi	r20, 0x00	; 0
-  d0:	50 e0       	ldi	r21, 0x00	; 0
-  d2:	60 e0       	ldi	r22, 0x00	; 0
-  d4:	70 e0       	ldi	r23, 0x00	; 0
-  d6:	84 e0       	ldi	r24, 0x04	; 4
-  d8:	90 e0       	ldi	r25, 0x00	; 0
-  da:	0e 94 40 00 	call	0x80	; 0x80 <RGB>
+	while(1) {	
+		
+		display_RGB(0,0,0);
+ 264:	40 e0       	ldi	r20, 0x00	; 0
+ 266:	60 e0       	ldi	r22, 0x00	; 0
+ 268:	80 e0       	ldi	r24, 0x00	; 0
+ 26a:	0e 94 40 00 	call	0x80	; 0x80 <display_RGB>
 	}
-  de:	f7 cf       	rjmp	.-18     	; 0xce <main+0x4>
+ 26e:	fa cf       	rjmp	.-12     	; 0x264 <main+0x8>
 
-000000e0 <_exit>:
-  e0:	f8 94       	cli
+00000270 <_exit>:
+ 270:	f8 94       	cli
 
-000000e2 <__stop_program>:
-  e2:	ff cf       	rjmp	.-2      	; 0xe2 <__stop_program>
+00000272 <__stop_program>:
+ 272:	ff cf       	rjmp	.-2      	; 0x272 <__stop_program>
