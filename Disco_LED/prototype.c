@@ -7,22 +7,35 @@
 
 #define F_CPU 16000000UL
 
+//Functions
+#include <disco_functions.h>
+#include <irremote.h>
+#include <remotes.h>
+#include <commonTimer.h>
+
+//AVR
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include <disco_functions.h>
 
-int main(void) {
+int main(void) 
+{
+	commandAction command;
 	
 	initialise_ATmega328P();
-	testRGB();
+	initIR(5, RGB_REMOTE_ADDRESS, RGB_REMOTE);
+	init100usTimer2(F_CPU);
 	
-	while(1) {	
-		
-		display_RGB(0,0,0);
+	while(1) 
+	{										
+		command = getIRCommandRec();
+		getCommand(command);
+		display_RGB(red_Value,green_Value,blue_Value);
 	}
+	
 	
 	return 1;
 } 
+
 
 

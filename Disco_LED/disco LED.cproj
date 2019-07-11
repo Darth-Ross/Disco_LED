@@ -27,14 +27,14 @@
     <BootSegment>2</BootSegment>
     <eraseonlaunchrule>0</eraseonlaunchrule>
     <AsfFrameworkConfig>
-      <framework-data xmlns="">
+      <framework-data>
         <options />
         <configurations />
         <files />
         <documentation help="" />
         <offline-documentation help="" />
         <dependencies>
-          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.31.0" />
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.34.1" />
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
@@ -42,15 +42,32 @@
     <avrtoolserialnumber />
     <avrdeviceexpectedsignature>0x1E950F</avrdeviceexpectedsignature>
     <com_atmel_avrdbg_tool_simulator>
+      <ToolOptions>
+        <InterfaceProperties>
+        </InterfaceProperties>
+        <InterfaceName>
+        </InterfaceName>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.simulator</ToolType>
+      <ToolNumber>
+      </ToolNumber>
+      <ToolName>Simulator</ToolName>
+    </com_atmel_avrdbg_tool_simulator>
+    <avrtoolinterface />
+    <custom>
       <ToolOptions xmlns="">
         <InterfaceProperties>
         </InterfaceProperties>
+        <InterfaceName>
+        </InterfaceName>
       </ToolOptions>
-      <ToolType xmlns="">com.atmel.avrdbg.tool.simulator</ToolType>
+      <ToolType xmlns="">custom</ToolType>
       <ToolNumber xmlns="">
       </ToolNumber>
-      <ToolName xmlns="">Simulator</ToolName>
-    </com_atmel_avrdbg_tool_simulator>
+      <ToolName xmlns="">Custom Programming Tool</ToolName>
+    </custom>
+    <ResetRule>0</ResetRule>
+    <EraseKey />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -132,13 +149,31 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="commonDefines.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="commonTimer.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="commonTimer.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="disco_functions.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="disco_functions.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="irremote.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="irremote.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="prototype.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="remotes.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
