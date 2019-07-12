@@ -170,7 +170,7 @@
     <Compile Include="irremote.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="prototype.c">
+    <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="remotes.h">

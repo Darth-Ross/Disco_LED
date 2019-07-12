@@ -7,11 +7,15 @@
 
 #define F_CPU 16000000UL
 
-#include <disco_functions.h>
-#include <irremote.h>
+// AVR-libraries
 #include <avr/io.h>
 #include <avr/common.h>
 #include <util/delay.h>
+
+// Function-libraries
+#include <disco_functions.h>
+#include <irremote.h>
+
 
 void initialise_ATmega328P(void)
 {
@@ -19,10 +23,11 @@ void initialise_ATmega328P(void)
 	// I/0 //
 	/////////
 
-	DDRD = 0xFF;				// Set Port D as output
-	DDRB = 0xFF;				// Set port B as output
-	PORTD = 0;
-	PORTB = 0;
+	DDRD = 0xFF;				// Set PORT D as output
+	DDRB = 0xFF;				// Set PORT B as output
+	
+	PORTD = 0;					// Set PORT D to 0
+	PORTB = 0;					// Set PORT B to 0
 	
 	/////////////
 	// Timer 0 //

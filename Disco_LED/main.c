@@ -7,16 +7,17 @@
 
 #define F_CPU 16000000UL
 
-//Functions
+//AVR-libraries
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <util/delay.h>
+
+//Function-libraries
 #include <disco_functions.h>
 #include <irremote.h>
 #include <remotes.h>
 #include <commonTimer.h>
 
-//AVR
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/delay.h>
 
 int main(void) 
 {
@@ -32,7 +33,6 @@ int main(void)
 		getCommand(command);
 		display_RGB(red_Value,green_Value,blue_Value);
 	}
-	
 	
 	return 1;
 } 
