@@ -4,6 +4,9 @@ This is a design for a IR RGB LEDstrip driver which uses a 24 key RGB remote. It
 
 The repo includes both hardware and software design which you can either use directly or include in your own projects.
 
+# Licenses
+
+The software is licensed under the GNU General Public License V3.0 and the hardware is licensed under the CERN Open Hardware License V1.2.
 
 # Software changelog
 #### V1.0
