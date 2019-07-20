@@ -8,9 +8,15 @@ The repo includes both hardware and software design which you can either use dir
 
 The software is licensed under the GNU General Public License V3.0 and the hardware is licensed under the CERN Open Hardware License V1.2. See the license files in each folder for more information.
 
+# Hardeware changelog
+### V1.0
+- Added electrical schematic
+- Added PCB design
+- Added licensing
+
 # Software changelog
 #### V1.0
 - Basic feature implementation
 - Added 24 key RGB remote support
 - Added ATmega328p support
-
+- Added licensing
