@@ -20,7 +20,8 @@ These are all the libraries I have used that were made by other users.
 - Added PCB design
 - Added licensing
 #### V1.0.1
-- Added gerbers and renders
+- Added gerber files 
+- Added 3D renders 
 
 # Software changelog
 #### V1.0
