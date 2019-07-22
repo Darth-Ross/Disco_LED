@@ -19,6 +19,8 @@ These are all the libraries I have used that were made by other users.
 - Added electrical schematic
 - Added PCB design
 - Added licensing
+#### V1.0.1
+- Added gerbers and renders
 
 # Software changelog
 #### V1.0
