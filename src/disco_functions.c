@@ -83,6 +83,7 @@ void initialise_ATmega328P(void)
 	blue_Value = 0;
 }
 
+// Outputs all the signals according to the RGB values
 void display_RGB(char red, char green, char blue) 
 {
 	char PWM_RED;
@@ -98,6 +99,7 @@ void display_RGB(char red, char green, char blue)
 	OCR0B = PWM_BLUE;
 }
 
+// Tests the RGB ledstrip with all colours
 void testRGB(void) 
 {
 		display_RGB(255,0,0);
@@ -127,7 +129,7 @@ void testRGB(void)
 		display_RGB(0,0,0);
 }
 
-// Make safety for underflow or overflow
+// Changes brightnes up or down based on select
 void brightness(char select)
 {
 	if(select == 1)
@@ -167,6 +169,7 @@ void brightness(char select)
 	}
 }
 
+// Turns the system off and on again if called upon again
 void systemControl(void)
 {
 	commandAction command;
@@ -178,7 +181,7 @@ void systemControl(void)
 	}
 }
 
-// Create all commands
+// Decides which function will be executed according to the command of the IR remote
 void getCommand(commandAction command) 
 {
 	switch(command) {
