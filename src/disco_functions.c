@@ -29,6 +29,8 @@ void initialise_ATmega328P(void)
 	PORTD = 0;					// Set PORT D to 0
 	PORTB = 0;					// Set PORT B to 0
 	
+	PORTB |= (1 << 3); 			// Enable OK LED
+	
 	/////////////
 	// Timer 0 //
 	/////////////
