@@ -1,5 +1,4 @@
 EESchema Schematic File Version 4
-LIBS:IR_RGB_LEDSTRIP_DRIVER-cache
 EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
@@ -198,8 +197,6 @@ $EndComp
 Wire Wire Line
 	700  4750 700  4900
 Wire Wire Line
-	900  5000 1050 5000
-Wire Wire Line
 	3650 4400 3650 4300
 Wire Wire Line
 	3650 4300 3750 4300
@@ -209,8 +206,6 @@ Wire Wire Line
 	3750 4150 3550 4150
 Wire Wire Line
 	3550 4150 3550 4400
-Wire Wire Line
-	900  4900 1050 4900
 Wire Wire Line
 	900  4900 900  5000
 $Comp
@@ -373,16 +368,6 @@ Wire Wire Line
 	9750 2500 9750 2200
 Text GLabel 4100 2000 0    50   Input ~ 0
 GREEN_SIGNAL
-Wire Wire Line
-	4250 1300 5300 1300
-Wire Wire Line
-	5300 1300 5300 1800
-Wire Wire Line
-	7500 1200 7500 1800
-Wire Wire Line
-	9750 1100 9750 1800
-Text Notes 6100 600  0    50   ~ 0
-Control circuit\n
 $Comp
 L Device:R R4
 U 1 1 5D2B1D3C
@@ -407,9 +392,6 @@ NoConn ~ 2350 4400
 NoConn ~ 2250 4400
 NoConn ~ 2050 4400
 NoConn ~ 1950 4400
-NoConn ~ 1850 4400
-NoConn ~ 1750 4400
-NoConn ~ 1650 4400
 NoConn ~ 1350 4400
 $Comp
 L Device:R R6
@@ -494,14 +476,6 @@ F 3 "~" H 8900 2000 50  0001 C CNN
 	1    8900 2000
 	0    1    1    0   
 $EndComp
-Wire Wire Line
-	4250 1200 7500 1200
-Wire Wire Line
-	4250 1100 9750 1100
-Wire Notes Line
-	10300 650  10300 2850
-Wire Notes Line
-	3350 650  10300 650 
 $Comp
 L Device:R R2
 U 1 1 5D2F6E59
@@ -600,23 +574,6 @@ F 3 "~" H 1200 3600 50  0001 C CNN
 	1    1200 3600
 	-1   0    0    1   
 $EndComp
-$Comp
-L MCU_Microchip_ATmega:ATmega328P-PU U3
-U 1 1 5D292545
-P 2550 5000
-F 0 "U3" V 1861 5000 50  0000 C CNN
-F 1 "ATmega328P-PU" V 1770 5000 50  0000 C CNN
-F 2 "Package_DIP:DIP-28_W7.62mm" H 2550 5000 50  0001 C CIN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/ATmega328_P%20AVR%20MCU%20with%20picoPower%20Technology%20Data%20Sheet%2040001984A.pdf" H 2550 5000 50  0001 C CNN
-	1    2550 5000
-	0    -1   -1   0   
-$EndComp
-Wire Wire Line
-	1400 3700 1550 3700
-Wire Wire Line
-	1550 3700 1550 4400
-Wire Wire Line
-	1400 3600 1650 3600
 Wire Wire Line
 	1400 3500 2850 3500
 $Comp
@@ -637,10 +594,6 @@ Wire Wire Line
 Wire Wire Line
 	900  3600 800  3600
 Wire Wire Line
-	800  3600 800  3850
-Wire Wire Line
-	800  3850 1450 3850
-Wire Wire Line
 	700  4900 900  4900
 Connection ~ 900  4900
 Wire Wire Line
@@ -653,16 +606,9 @@ Wire Wire Line
 Wire Wire Line
 	3500 2600 3500 2850
 Wire Wire Line
-	1450 3850 1450 4300
-Wire Wire Line
 	1450 4300 1450 4400
-Connection ~ 1450 4300
-Wire Wire Line
-	1650 3600 1650 4400
-Text GLabel 1850 4300 2    50   Input ~ 0
+Text GLabel 1950 4300 2    50   Input ~ 0
 GREEN_SIGNAL
-Wire Wire Line
-	1450 4300 1850 4300
 Wire Wire Line
 	3500 3150 3500 3500
 Connection ~ 3500 3500
@@ -789,41 +735,90 @@ Wire Wire Line
 $Comp
 L Device:LED D2
 U 1 1 5D325E75
-P 2200 3750
-F 0 "D2" V 2239 3633 50  0000 R CNN
-F 1 "LED" V 2148 3633 50  0000 R CNN
-F 2 "LED_THT:LED_D3.0mm" H 2200 3750 50  0001 C CNN
-F 3 "~" H 2200 3750 50  0001 C CNN
-	1    2200 3750
+P 2350 3750
+F 0 "D2" V 2389 3633 50  0000 R CNN
+F 1 "LED" V 2298 3633 50  0000 R CNN
+F 2 "LED_THT:LED_D3.0mm" H 2350 3750 50  0001 C CNN
+F 3 "~" H 2350 3750 50  0001 C CNN
+	1    2350 3750
 	0    -1   -1   0   
 $EndComp
 $Comp
 L power:GND #PWR0103
 U 1 1 5D325E81
-P 2200 4000
-F 0 "#PWR0103" H 2200 3750 50  0001 C CNN
-F 1 "GND" H 2205 3827 50  0000 C CNN
-F 2 "" H 2200 4000 50  0001 C CNN
-F 3 "" H 2200 4000 50  0001 C CNN
-	1    2200 4000
+P 2350 4000
+F 0 "#PWR0103" H 2350 3750 50  0001 C CNN
+F 1 "GND" H 2355 3827 50  0000 C CNN
+F 2 "" H 2350 4000 50  0001 C CNN
+F 3 "" H 2350 4000 50  0001 C CNN
+	1    2350 4000
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	1650 3600 1800 3600
-Connection ~ 1650 3600
+	2250 3600 2350 3600
 Wire Wire Line
-	2100 3600 2200 3600
-Wire Wire Line
-	2200 3900 2200 4000
+	2350 3900 2350 4000
 $Comp
 L Device:R R10
 U 1 1 5D325E7B
-P 1950 3600
-F 0 "R10" V 1850 3550 50  0000 L CNN
-F 1 "1K" V 1750 3550 50  0000 L CNN
-F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" V 1880 3600 50  0001 C CNN
-F 3 "~" H 1950 3600 50  0001 C CNN
-	1    1950 3600
+P 2100 3600
+F 0 "R10" V 2000 3550 50  0000 L CNN
+F 1 "1K" V 1900 3550 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" V 2030 3600 50  0001 C CNN
+F 3 "~" H 2100 3600 50  0001 C CNN
+	1    2100 3600
 	0    -1   -1   0   
 $EndComp
+Wire Notes Line
+	3350 650  10300 650 
+Wire Notes Line
+	10300 650  10300 2850
+Wire Wire Line
+	4250 1100 9750 1100
+Wire Wire Line
+	4250 1200 7500 1200
+Text Notes 6100 600  0    50   ~ 0
+Control circuit\n
+Wire Wire Line
+	9750 1100 9750 1800
+Wire Wire Line
+	7500 1200 7500 1800
+Wire Wire Line
+	5300 1300 5300 1800
+Wire Wire Line
+	4250 1300 5300 1300
+Wire Wire Line
+	900  5000 1050 5000
+Wire Wire Line
+	900  4900 1050 4900
+$Comp
+L MCU_Microchip_ATmega:ATmega328P-PU U3
+U 1 1 5D292545
+P 2550 5000
+F 0 "U3" V 1861 5000 50  0000 C CNN
+F 1 "ATmega328P-PU" V 1770 5000 50  0000 C CNN
+F 2 "Package_DIP:DIP-28_W7.62mm" H 2550 5000 50  0001 C CIN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/ATmega328_P%20AVR%20MCU%20with%20picoPower%20Technology%20Data%20Sheet%2040001984A.pdf" H 2550 5000 50  0001 C CNN
+	1    2550 5000
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	1400 3600 1850 3600
+Wire Wire Line
+	1450 4300 1950 4300
+Wire Wire Line
+	1850 4400 1850 3600
+Connection ~ 1850 3600
+Wire Wire Line
+	1850 3600 1950 3600
+Wire Wire Line
+	800  3800 800  3600
+Wire Wire Line
+	1400 3700 1750 3700
+Wire Wire Line
+	1750 3700 1750 4400
+Wire Wire Line
+	800  3800 1650 3800
+Wire Wire Line
+	1650 3800 1650 4400
 $EndSCHEMATC
