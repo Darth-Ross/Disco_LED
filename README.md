@@ -22,6 +22,8 @@ These are all the libraries I have used that were made by other users.
 #### V1.0.1
 - Added gerber files 
 - Added 3D renders 
+#### V1.1.0
+- Fixed connection error for ICSP port
 
 # Software changelog
 #### V1.0
