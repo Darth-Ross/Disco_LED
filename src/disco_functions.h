@@ -15,10 +15,18 @@ unsigned char red_Value;
 unsigned char green_Value;
 unsigned char blue_Value;
 
-void display_RGB(char red, char green, char blue);
-void initialise_ATmega328P(void);
+unsigned char red_Max;
+unsigned char green_Max;
+unsigned char blue_Max;
+
+signed char brightness_Percentage;
+
+commandAction previous_Command;
+
+void displayRGB(char red, char green, char blue);
+void initialiseATmega328P(void);
 void testRGB(void);
-void getCommand(commandAction command);
+void executeCommand(commandAction command);
 
 
 #endif /* DISCO-FUNCTIONS_H_ */

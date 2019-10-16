@@ -5,7 +5,7 @@
 *  Author: Jorre
 */
 
-#define F_CPU 16000000UL
+#define F_CPU 8000000UL
 
 //AVR-libraries
 #include <avr/io.h>
@@ -18,20 +18,33 @@
 #include <remotes.h>
 #include <commonTimer.h>
 
+/*
+Nog te doen & gevonden problemen
+- REPEAT_CMD eleganter inplementeren
+- FADE command implementeren
+- FLASH command implementeren
+- SMOOTH command implementeren
 
+*/
 int main(void) 
 {
-	commandAction command;
-	
-	initialise_ATmega328P();
+	initialiseATmega328P();
 	initIR(5, RGB_REMOTE_ADDRESS, RGB_REMOTE);
 	init100usTimer2(F_CPU);
 	
+	commandAction command = NO_ACTION;
+	
+	brightness_Percentage = 100;
+	
+	red_Value = 0;
+	green_Value = 0;
+	blue_Value = 0;
+	
 	while(1) 
-	{										
+	{							
 		command = getIRCommandRec();
-		getCommand(command);
-		display_RGB(red_Value,green_Value,blue_Value);
+		executeCommand(command);
+		displayRGB(red_Value, green_Value, blue_Value);	
 	}
 	
 	return 1;

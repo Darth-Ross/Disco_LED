@@ -5,7 +5,7 @@
  *  Author: Jorre van Merrienboer
  */ 
 
-#define F_CPU 16000000UL
+#define F_CPU 8000000UL
 
 // AVR-libraries
 #include <avr/io.h>
@@ -17,7 +17,7 @@
 #include <irremote.h>
 
 
-void initialise_ATmega328P(void)
+void initialiseATmega328P(void)
 {
 	/////////
 	// I/0 //
@@ -28,9 +28,7 @@ void initialise_ATmega328P(void)
 	
 	PORTD = 0;					// Set PORT D to 0
 	PORTB = 0;					// Set PORT B to 0
-	
-	PORTB |= (1 << 3); 			// Enable OK LED
-	
+
 	/////////////
 	// Timer 0 //
 	/////////////
@@ -80,102 +78,78 @@ void initialise_ATmega328P(void)
 	TCNT0 = 0;
 	TCNT1 = 0;
 	
-	red_Value = 0;
-	green_Value = 0;
-	blue_Value = 0;
+	PORTB |= (1 << 3);			// Turn on successful initialization LED. 
 }
 
-// Outputs all the signals according to the RGB values
-void display_RGB(char red, char green, char blue) 
+void displayRGB(char red, char green, char blue) 
 {
 	char PWM_RED;
 	char PWM_GREEN;
 	char PWM_BLUE;
 	
-	PWM_RED = 255 - red;
-	PWM_GREEN = 255 - green;
-	PWM_BLUE = 255 - blue;	
+	PWM_RED = 255 - ((red / 100) * brightness_Percentage);
+	PWM_GREEN = 255 - ((green / 100) * brightness_Percentage);
+	PWM_BLUE = 255 - ((blue / 100) * brightness_Percentage);	
 
 	OCR0A = PWM_RED;
 	OCR1A = PWM_GREEN;
 	OCR0B = PWM_BLUE;
 }
 
-// Tests the RGB ledstrip with all colours
 void testRGB(void) 
 {
-		display_RGB(255,0,0);
+		displayRGB(255,0,0);
 		_delay_ms(500);
-		display_RGB(255,128,0);
+		displayRGB(255,128,0);
 		_delay_ms(500);
-		display_RGB(255,255,0);
+		displayRGB(255,255,0);
 		_delay_ms(500);
-		display_RGB(128,255,0);
+		displayRGB(128,255,0);
 		_delay_ms(500);
-		display_RGB(0,255,128);
+		displayRGB(0,255,128);
 		_delay_ms(500);
-		display_RGB(0,255,255);
+		displayRGB(0,255,255);
 		_delay_ms(500);
-		display_RGB(0,128,255);
+		displayRGB(0,128,255);
 		_delay_ms(500);
-		display_RGB(0,0,255);
+		displayRGB(0,0,255);
 		_delay_ms(500);
-		display_RGB(127,0,255);
+		displayRGB(127,0,255);
 		_delay_ms(500);
-		display_RGB(255,0,255);
+		displayRGB(255,0,255);
 		_delay_ms(500);
-		display_RGB(255,0,127);
+		displayRGB(255,0,127);
 		_delay_ms(500);
-		display_RGB(128,128,128);
+		displayRGB(128,128,128);
 		_delay_ms(500);
-		display_RGB(0,0,0);
+		displayRGB(0,0,0);
 }
 
-// Changes brightnes up or down based on select
+// Make safety for underflow or overflow
 void brightness(char select)
 {
 	if(select == 1)
 	{
-		if(red_Value > 0)
+		brightness_Percentage += 5;
+		if(brightness_Percentage >= 100)	//Overflow protection 
 		{
-			red_Value+=10;
-		}
-		
-		if(green_Value > 0)
-		{
-			green_Value+=10;
-		}
-		
-		if(blue_Value > 0)
-		{
-			blue_Value+=10;
-		}
-		
+			brightness_Percentage = 100;
+		}	
 	}
 	else
 	{
-		if(red_Value > 0)
+		brightness_Percentage -= 5;
+		if(brightness_Percentage <= 1)		//Underflow protection
 		{
-			red_Value-=10;
-		}
-		
-		if(green_Value > 0)
-		{
-			green_Value-=10;
-		}
-		
-		if(blue_Value > 0)
-		{
-			blue_Value-=10;
+			brightness_Percentage = 1;	
 		}
 	}
 }
 
-// Turns the system off and on again if called upon again
-void systemControl(void)
+void powerOff(void)
 {
 	commandAction command;
-	display_RGB(0,0,0);
+	displayRGB(0,0,0);
 	
 	while(command != ON)
 	{
@@ -183,25 +157,38 @@ void systemControl(void)
 	}
 }
 
-// Decides which function will be executed according to the command of the IR remote
-void getCommand(commandAction command) 
+void ledFLASH(void)
 {
-	switch(command) {
-		
+
+}
+
+// Create all commands
+void executeCommand(commandAction command) 
+{
+	if(command == CMD_REPEAT)
+	{
+		command = previous_Command;
+	}
+
+	switch(command) 
+	{
 		case OFF:
-			systemControl();
+			powerOff();
 			break;
-		
+	
 		case BPLUS:
 			brightness(1);
+			previous_Command = command;
 			break;
 		
 		case BMIN:
 			brightness(0);
+			previous_Command = command;
 			break;
 		
 		case FLASH:
 			// Create function
+			ledFLASH();
 			break;
 		
 		case STROBE:
@@ -329,9 +316,6 @@ void getCommand(commandAction command)
 			break;
 			
 		default:
-			red_Value = red_Value;
-			green_Value = green_Value;
-			blue_Value =  blue_Value;
 			break;	
 	}
 }
