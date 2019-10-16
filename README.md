@@ -22,7 +22,7 @@ These are all the libraries I have used that were made by other users.
 #### V1.0.1
 - Added gerber files 
 - Added 3D renders 
-#### V1.1.0
+#### V1.1
 - Fixed connection error for ICSP port
 
 # Software changelog
@@ -31,3 +31,10 @@ These are all the libraries I have used that were made by other users.
 - Added 24 key RGB remote support
 - Added ATmega328p support
 - Added licensing
+#### V1.1
+- Added first implementation of CMD_REPEAT functionality
+- Reworked the brightness system to use percentage instead of RGB values. 
+
+#### Known bugs
+- CMD_REPEAT remembers the command BPLUS OR BMIN even after pressing other commands. This will cause the BPLUS or BMIN command to be executed if other commands are repeated.
+
