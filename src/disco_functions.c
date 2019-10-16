@@ -162,7 +162,6 @@ void ledFLASH(void)
 
 }
 
-// Create all commands
 void executeCommand(commandAction command) 
 {
 	if(command == CMD_REPEAT)

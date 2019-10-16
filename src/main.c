@@ -18,14 +18,6 @@
 #include <remotes.h>
 #include <commonTimer.h>
 
-/*
-Nog te doen & gevonden problemen
-- REPEAT_CMD eleganter inplementeren
-- FADE command implementeren
-- FLASH command implementeren
-- SMOOTH command implementeren
-
-*/
 int main(void) 
 {
 	initialiseATmega328P();
